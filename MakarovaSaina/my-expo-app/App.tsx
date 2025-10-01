@@ -1,10 +1,64 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
-  const [count, setCount] = useState<number>(0);
-  const [buttonPressCount, setButtonPressCount] = useState<number>(0);
+  
+  const [count, setCount] = useState(0);
+  const [buttonPressCount, setButtonPressCount] = useState(0);
+
+  useEffect(() => {
+    const loadSavedData = async () => {
+      try {
+        const savedCount = await AsyncStorage.getItem('counter');
+        const savedButtonPressCount = await AsyncStorage.getItem('buttonPressCount');
+        
+        if (savedCount !== null) {
+          setCount(parseInt(savedCount, 10));
+        }
+        if (savedButtonPressCount !== null) {
+          setButtonPressCount(parseInt(savedButtonPressCount, 10));
+        }
+      } catch (error) {
+        console.log('Ошибка загрузки данных:', error);
+      }
+    };
+
+    loadSavedData();
+  }, []);
+
+  useEffect(() => {
+    const saveCounter = async () => {
+      try {
+        await AsyncStorage.setItem('counter', count.toString());
+      } catch (error) {
+        console.log('Ошибка сохранения счетчика:', error);
+      }
+    };
+
+    saveCounter();
+  }, [count]);
+
+  useEffect(() => {
+    const saveButtonPressCount = async () => {
+      try {
+        await AsyncStorage.setItem('buttonPressCount', buttonPressCount.toString());
+      } catch (error) {
+        console.log('Ошибка сохранения нажатий:', error);
+      }
+    };
+
+    saveButtonPressCount();
+  }, [buttonPressCount]);
+
+  useEffect(() => {
+    console.log(`Счетчик обновлен: ${count}`);
+  }, [count]);
+
+  useEffect(() => {
+    console.log(`Кнопка "Нажми меня" нажата: ${buttonPressCount}`);
+  }, [buttonPressCount]);
 
   const incrementCount = (): void => {
     setCount(count + 1);
@@ -28,7 +82,6 @@ export default function App() {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>Добро пожаловать 👋</Text>
-        <Text style={styles.subtitle}>Expo + React Native с useState</Text>
 
         <View style={styles.counterContainer}>
           <Text style={styles.counterTitle}>Счетчик: {count}</Text>
@@ -67,10 +120,6 @@ export default function App() {
           </Text>
         </TouchableOpacity>
 
-        <Text style={styles.helper}>
-          Запустите: npx expo start
-        </Text>
-
         <StatusBar style="auto" />
       </View>
     </SafeAreaView>
@@ -92,12 +141,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
     marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#C5C6C7',
-    marginBottom: 32,
     textAlign: 'center',
   },
   counterContainer: {
@@ -161,11 +204,5 @@ const styles = StyleSheet.create({
     color: '#0B0C10',
     fontWeight: '700',
     fontSize: 16,
-  },
-  helper: {
-    color: '#C5C6C7',
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 16,
   },
 });
