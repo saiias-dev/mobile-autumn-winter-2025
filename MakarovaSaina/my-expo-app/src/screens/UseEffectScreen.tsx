@@ -119,6 +119,13 @@ export default function UseEffectScreen({ navigation }: any) {
             <Text style={styles.primaryButtonText}>Обновить посты</Text>
 
           </TouchableOpacity>
+
+      	 		<TouchableOpacity 
+          		style={styles.navButton} 
+          		onPress={() => navigation.navigate('UseState')}
+          		activeOpacity={0.7}>
+          		<Text style={styles.navButtonText}>Перейти к useState →</Text>
+        		</TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
