@@ -72,13 +72,13 @@ export default function UseStateScreen({ navigation }: any) {
           </Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity 
+      	 <TouchableOpacity 
           style={styles.navButton} 
           onPress={() => navigation.navigate('UseEffect')}
           activeOpacity={0.7}
         >
           <Text style={styles.navButtonText}>Перейти к useEffect →</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
