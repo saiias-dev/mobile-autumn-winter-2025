@@ -20,7 +20,7 @@ export default function UseEffectScreen({ navigation }: any) {
   const [loading, setLoading] = useState<boolean>(true);
   const [counter, setCounter] = useState<number>(0);
 
-  // Простой useEffect для загрузки данных
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,17 +36,16 @@ export default function UseEffectScreen({ navigation }: any) {
     };
 
     fetchData();
-  }, []); // Пустой массив зависимостей - выполнится только при монтировании
+  }, []); 
 
-  // useEffect для логирования
+  
   useEffect(() => {
     console.log('Количество постов:', posts.length);
-  }, [posts]); // Зависимость от posts - выполнится при изменении posts
+  }, [posts]); 
 
-  // useEffect для счетчика
   useEffect(() => {
     console.log('Счетчик обновлен:', counter);
-  }, [counter]); // Зависимость от counter
+  }, [counter]); 
 
   const loadData = () => {
     setLoading(true);
