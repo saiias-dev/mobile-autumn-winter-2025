@@ -71,17 +71,6 @@ export default function UseStateScreen({ navigation }: any) {
             Нажми меня ({buttonPressCount})
           </Text>
         </TouchableOpacity>
-<<<<<<< HEAD
-=======
-
-      	 <TouchableOpacity 
-          style={styles.navButton} 
-          onPress={() => navigation.navigate('UseEffect')}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navButtonText}>Перейти к useEffect →</Text>
-        </TouchableOpacity>
->>>>>>> 2a2fef2813ae889aa132d11dccabf56e47420361
       </View>
     </SafeAreaView>
   );

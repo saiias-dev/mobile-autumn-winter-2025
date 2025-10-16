@@ -20,10 +20,6 @@ export default function UseEffectScreen({ navigation }: any) {
   const [loading, setLoading] = useState<boolean>(true);
   const [counter, setCounter] = useState<number>(0);
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a2fef2813ae889aa132d11dccabf56e47420361
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,10 +42,7 @@ export default function UseEffectScreen({ navigation }: any) {
     console.log('Количество постов:', posts.length);
   }, [posts]); 
 
-<<<<<<< HEAD
   
-=======
->>>>>>> 2a2fef2813ae889aa132d11dccabf56e47420361
   useEffect(() => {
     console.log('Счетчик обновлен:', counter);
   }, [counter]); 
