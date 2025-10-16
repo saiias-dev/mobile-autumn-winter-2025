@@ -2,6 +2,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import UseStateScreen from '../screens/UseStateScreen';
 import UseEffectScreen from '../screens/UseEffectScreen';
+import UseMemoScreen from '../screens/UseMemoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,6 +40,14 @@ export default function AppNavigator() {
         options={{
           title: 'Лабораторная useEffect()',
           drawerLabel: 'useEffect Хук',
+        }}
+      />
+      <Drawer.Screen 
+        name="UseMemo" 
+        component={UseMemoScreen}
+        options={{
+          title: 'Лабораторная useMemo()',
+          drawerLabel: 'useMemo Хук',
         }}
       />
     </Drawer.Navigator>

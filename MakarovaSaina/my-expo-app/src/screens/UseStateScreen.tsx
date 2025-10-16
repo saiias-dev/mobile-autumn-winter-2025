@@ -71,14 +71,6 @@ export default function UseStateScreen({ navigation }: any) {
             Нажми меня ({buttonPressCount})
           </Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity 
-          style={styles.navButton} 
-          onPress={() => navigation.navigate('UseEffect')}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navButtonText}>Перейти к useEffect →</Text>
-        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );
@@ -124,7 +116,7 @@ const styles = StyleSheet.create({
   counterTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#66FCF1',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -135,7 +127,7 @@ const styles = StyleSheet.create({
   },
   counterButton: {
     flex: 1,
-    backgroundColor: '#45A29E',
+    backgroundColor: '#ff859bff',
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -148,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   primaryButton: {
-    backgroundColor: '#45A29E',
+    backgroundColor: '#ff859bff',
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,

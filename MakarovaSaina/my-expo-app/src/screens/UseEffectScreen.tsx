@@ -20,7 +20,6 @@ export default function UseEffectScreen({ navigation }: any) {
   const [loading, setLoading] = useState<boolean>(true);
   const [counter, setCounter] = useState<number>(0);
 
-  // Простой useEffect для загрузки данных
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,17 +35,17 @@ export default function UseEffectScreen({ navigation }: any) {
     };
 
     fetchData();
-  }, []); // Пустой массив зависимостей - выполнится только при монтировании
+  }, []); 
 
-  // useEffect для логирования
+  
   useEffect(() => {
     console.log('Количество постов:', posts.length);
-  }, [posts]); // Зависимость от posts - выполнится при изменении posts
+  }, [posts]); 
 
-  // useEffect для счетчика
+  
   useEffect(() => {
     console.log('Счетчик обновлен:', counter);
-  }, [counter]); // Зависимость от counter
+  }, [counter]); 
 
   const loadData = () => {
     setLoading(true);
@@ -129,7 +128,7 @@ export default function UseEffectScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#faa1bfff',
+    backgroundColor: '#0B0C10',
   },
   container: {
     flex: 1,
@@ -144,13 +143,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#0e0f0fff',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#C5C6C7',
+    color: '#1F2833',
     textAlign: 'center',
     marginBottom: 24,
   },
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   infoContainer: {
-    backgroundColor: '#ea75a7b5',
+    backgroundColor: '#45A29E',
     padding: 16,
     borderRadius: 12,
     marginBottom: 20,
@@ -171,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   counterContainer: {
-    backgroundColor: '#ebfff28e',
+    backgroundColor: '#1F2833',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
   counterTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#000000ff',
+    color: '#FFFFFF',
     marginBottom: 12,
   },
   counterButton: {
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   postCard: {
-    backgroundColor: '#009439ff',
+    backgroundColor: '#1F2833',
     padding: 16,
     borderRadius: 8,
     marginBottom: 8,
@@ -213,14 +212,14 @@ const styles = StyleSheet.create({
     borderLeftColor: '#45A29E',
   },
   postTitle: {
-    color: '#C5C6C7',
+    color: '#FFFFFF',
     fontSize: 14,
   },
   buttonsContainer: {
     gap: 12,
   },
   primaryButton: {
-    backgroundColor: '#8d1c27ff',
+    backgroundColor: '#ff859bff',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
