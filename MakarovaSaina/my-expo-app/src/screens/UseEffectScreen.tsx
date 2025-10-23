@@ -126,6 +126,21 @@ export default function UseEffectScreen({ navigation }: any) {
           		activeOpacity={0.7}>
           		<Text style={styles.navButtonText}>Перейти к useState →</Text>
         		</TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.navButton} 
+              onPress={() => navigation.navigate('UseMemo')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.navButtonText}>→ Перейти к useMemo</Text>
+            </TouchableOpacity>
+  
+            <TouchableOpacity 
+              style={styles.navButton} 
+              onPress={() => navigation.navigate('Home')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.navButtonText}>← На главную</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

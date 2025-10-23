@@ -10,7 +10,8 @@ import {
   Alert,
   Modal,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ScrollView
 } from 'react-native';
 
 type User = {
@@ -31,7 +32,6 @@ export default function UseMemoScreen({ navigation }: any) {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [counter, setCounter] = useState(0);
   const [newUserName, setNewUserName] = useState('');
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -41,19 +41,16 @@ export default function UseMemoScreen({ navigation }: any) {
     department: ''
   });
 
-  
   const filteredUsers = useMemo(() => {
     console.log('🔍 Фильтрация пользователей...');
     
     let filtered = users;
-    
     
     if (searchTerm) {
       filtered = filtered.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    
     
     if (selectedDepartment) {
       filtered = filtered.filter(user =>
@@ -64,7 +61,6 @@ export default function UseMemoScreen({ navigation }: any) {
     return filtered;
   }, [users, searchTerm, selectedDepartment]);
 
-  
   const userStats = useMemo(() => {
     console.log('📊 Вычисление статистики...');
     
@@ -85,15 +81,12 @@ export default function UseMemoScreen({ navigation }: any) {
     };
   }, [filteredUsers]);
 
-  
   const departments = useMemo(() => {
     return [...new Set(users.map(user => user.department))];
   }, [users]);
 
-  
   const expensiveCalculation = useMemo(() => {
     console.log('⚡ Выполнение сложных вычислений...');
-    
     
     let result = 0;
     for (let i = 0; i < 1000000; i++) {
@@ -106,7 +99,6 @@ export default function UseMemoScreen({ navigation }: any) {
     };
   }, [users.length]);
 
-  
   const addUser = () => {
     if (newUserName.trim()) {
       const newUser: User = {
@@ -220,109 +212,136 @@ export default function UseMemoScreen({ navigation }: any) {
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Text style={styles.title}>useMemo 🧠</Text>
-        
-    
-        <View style={styles.controlsContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Поиск по имени..."
-            placeholderTextColor="#C5C6C7"
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-          />
+        <ScrollView>
+          <Text style={styles.title}>useMemo 🧠</Text>
+          <Text style={styles.subtitle}>Оптимизация производительности</Text>
           
-          <View style={styles.departmentFilter}>
-            <Text style={styles.filterTitle}>Фильтр по отделу:</Text>
-            <View style={styles.filterButtons}>
-              <TouchableOpacity
-                style={[
-                  styles.filterButton,
-                  selectedDepartment === '' && styles.filterButtonActive
-                ]}
-                onPress={() => setSelectedDepartment('')}
-              >
-                <Text style={[
-                  styles.filterButtonText,
-                  selectedDepartment === '' && styles.filterButtonTextActive
-                ]}>Все</Text>
-              </TouchableOpacity>
-              {departments.map(dept => (
+          <View style={styles.controlsContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Поиск по имени..."
+              placeholderTextColor="#C5C6C7"
+              value={searchTerm}
+              onChangeText={setSearchTerm}
+            />
+            
+            <View style={styles.departmentFilter}>
+              <Text style={styles.filterTitle}>Фильтр по отделу:</Text>
+              <View style={styles.filterButtons}>
                 <TouchableOpacity
-                  key={dept}
                   style={[
                     styles.filterButton,
-                    selectedDepartment === dept && styles.filterButtonActive
+                    selectedDepartment === '' && styles.filterButtonActive
                   ]}
-                  onPress={() => setSelectedDepartment(dept)}
+                  onPress={() => setSelectedDepartment('')}
                 >
                   <Text style={[
                     styles.filterButtonText,
-                    selectedDepartment === dept && styles.filterButtonTextActive
-                  ]}>{dept}</Text>
+                    selectedDepartment === '' && styles.filterButtonTextActive
+                  ]}>Все</Text>
                 </TouchableOpacity>
-              ))}
+                {departments.map(dept => (
+                  <TouchableOpacity
+                    key={dept}
+                    style={[
+                      styles.filterButton,
+                      selectedDepartment === dept && styles.filterButtonActive
+                    ]}
+                    onPress={() => setSelectedDepartment(dept)}
+                  >
+                    <Text style={[
+                      styles.filterButtonText,
+                      selectedDepartment === dept && styles.filterButtonTextActive
+                    ]}>{dept}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
           </View>
-        </View>
 
-        
-        <View style={styles.statsContainer}>
-          <Text style={styles.statsTitle}>📊 Статистика</Text>
-          <Text style={styles.statsText}>Всего пользователей: {userStats.totalUsers}</Text>
-          <Text style={styles.statsText}>Средний возраст: {userStats.averageAge}</Text>
-          <Text style={styles.statsText}>
-            Отделы: {Object.entries(userStats.departmentCount).map(([dept, count]) => 
-              `${dept}: ${count}`
-            ).join(', ')}
-          </Text>
-          <Text style={styles.statsText}>Результат вычислений: {expensiveCalculation.computedValue}</Text>
-          <Text style={styles.statsText}>Вычислено в: {expensiveCalculation.timestamp}</Text>
-        </View>        
+          <View style={styles.statsContainer}>
+            <Text style={styles.statsTitle}>📊 Статистика</Text>
+            <Text style={styles.statsText}>Всего пользователей: {userStats.totalUsers}</Text>
+            <Text style={styles.statsText}>Средний возраст: {userStats.averageAge}</Text>
+            <Text style={styles.statsText}>
+              Отделы: {Object.entries(userStats.departmentCount).map(([dept, count]) => 
+                `${dept}: ${count}`
+              ).join(', ')}
+            </Text>
+            <Text style={styles.statsText}>Результат вычислений: {expensiveCalculation.computedValue}</Text>
+            <Text style={styles.statsText}>Вычислено в: {expensiveCalculation.timestamp}</Text>
+          </View>        
 
-        
-        <View style={styles.addUserContainer}>
-          <TextInput
-            style={styles.addUserInput}
-            placeholder="Имя нового пользователя"
-            placeholderTextColor="#C5C6C7"
-            value={newUserName}
-            onChangeText={setNewUserName}
-          />
-          <TouchableOpacity 
-            style={[
-              styles.addUserButton,
-              !newUserName.trim() && styles.addUserButtonDisabled
-            ]} 
-            onPress={addUser}
-            disabled={!newUserName.trim()}
-          >
-            <Text style={styles.addUserButtonText}>Добавить</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.addUserContainer}>
+            <TextInput
+              style={styles.addUserInput}
+              placeholder="Имя нового пользователя"
+              placeholderTextColor="#C5C6C7"
+              value={newUserName}
+              onChangeText={setNewUserName}
+            />
+            <TouchableOpacity 
+              style={[
+                styles.addUserButton,
+                !newUserName.trim() && styles.addUserButtonDisabled
+              ]} 
+              onPress={addUser}
+              disabled={!newUserName.trim()}
+            >
+              <Text style={styles.addUserButtonText}>Добавить</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.listContainer}>
-          <Text style={styles.listTitle}>
-            Пользователи ({filteredUsers.length})
-          </Text>
-          <FlatList
-            data={filteredUsers}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <UserItem 
-                user={item} 
-                onEdit={openEditModal}
-                onDelete={deleteUser}
-                onPress={showUserDetails}
-              />
-            )}
-            ListEmptyComponent={
-              <Text style={styles.emptyText}>Пользователи не найдены</Text>
-            }
-            style={styles.list}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
+          <View style={styles.listContainer}>
+            <Text style={styles.listTitle}>
+              Пользователи ({filteredUsers.length})
+            </Text>
+            <FlatList
+              data={filteredUsers}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <UserItem 
+                  user={item} 
+                  onEdit={openEditModal}
+                  onDelete={deleteUser}
+                  onPress={showUserDetails}
+                />
+              )}
+              ListEmptyComponent={
+                <Text style={styles.emptyText}>Пользователи не найдены</Text>
+              }
+              style={styles.list}
+              scrollEnabled={false}
+            />
+          </View>
+
+          <View style={styles.navigationButtons}>
+            <TouchableOpacity 
+              style={styles.navButton} 
+              onPress={() => navigation.navigate('UseState')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.navButtonText}>← К useState</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.navButton} 
+              onPress={() => navigation.navigate('UseEffect')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.navButtonText}>← К useEffect</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.navButton} 
+              onPress={() => navigation.navigate('Home')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.navButtonText}>← На главную</Text>
+            </TouchableOpacity>
+          </View>
+
+        </ScrollView>
 
         <Modal
           visible={editModalVisible}
@@ -389,7 +408,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingVertical: 16,
   },
   title: {
     fontSize: 28,
@@ -397,6 +415,13 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 8,
+    marginTop: 20,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#C5C6C7',
+    textAlign: 'center',
+    marginBottom: 24,
   },
   controlsContainer: {
     backgroundColor: '#1F2833',
@@ -466,39 +491,6 @@ const styles = StyleSheet.create({
     color: '#C5C6C7',
     marginBottom: 4,
   },
-  counterContainer: {
-    backgroundColor: '#1F2833',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: '#f97a9cff',
-  },
-  counterTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 12,
-  },
-  counterButton: {
-    backgroundColor: '#f97a9cff',
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  counterButtonText: {
-    color: '#0B0C10',
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  counterHint: {
-    fontSize: 12,
-    color: '#C5C6C7',
-    textAlign: 'center',
-    fontStyle: 'italic',
-  },
   addUserContainer: {
     backgroundColor: '#1F2833',
     padding: 16,
@@ -534,10 +526,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   listContainer: {
-    flex: 1,
     backgroundColor: '#1F2833',
     borderRadius: 12,
     padding: 16,
+    marginBottom: 16,
   },
   listTitle: {
     fontSize: 18,
@@ -598,6 +590,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 20,
     fontStyle: 'italic',
+  },
+  navigationButtons: {
+    gap: 12,
+    marginBottom: 20,
+  },
+  navButton: {
+    backgroundColor: '#2D3748',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#45A29E',
+  },
+  navButtonText: {
+    color: '#66FCF1',
+    fontWeight: '600',
+    fontSize: 14,
   },
   modalOverlay: {
     flex: 1,

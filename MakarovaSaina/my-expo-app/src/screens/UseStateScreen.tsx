@@ -5,7 +5,8 @@ import {
   View, 
   SafeAreaView, 
   TouchableOpacity, 
-  Alert 
+  Alert,
+  ScrollView
 } from 'react-native';
 
 export default function UseStateScreen({ navigation }: any) {
@@ -32,7 +33,7 @@ export default function UseStateScreen({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>useState 🎣</Text>
 
         <View style={styles.counterContainer}>
@@ -71,7 +72,33 @@ export default function UseStateScreen({ navigation }: any) {
             Нажми меня ({buttonPressCount})
           </Text>
         </TouchableOpacity>
-      </View>
+
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity 
+            style={styles.navButton} 
+            onPress={() => navigation.navigate('UseEffect')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.navButtonText}>→ Перейти к useEffect</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navButton} 
+            onPress={() => navigation.navigate('UseMemo')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.navButtonText}>→ Перейти к useMemo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.navButton} 
+            onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.navButtonText}>← На главную</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -84,7 +111,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    justifyContent: 'center',
   },
   title: {
     fontSize: 28,
@@ -92,6 +118,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 8,
     textAlign: 'center',
+    marginTop: 20,
   },
   subtitle: {
     fontSize: 16,
@@ -144,7 +171,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,
-    alignSelf: 'stretch',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -161,12 +187,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  navigationButtons: {
+    gap: 12,
+    marginBottom: 20,
+  },
   navButton: {
     backgroundColor: '#2D3748',
-    paddingVertical: 12,
+    paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignSelf: 'stretch',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#45A29E',
