@@ -48,7 +48,7 @@ export default function HomeLab({ navigation }: Props) {
           <Text style={HomeStyles.welcome}>Добро пожаловать!</Text>
           <Text style={HomeStyles.userName}>{user?.name || user?.email}</Text>
           
-          {/* Кнопка выхода */}
+
           <TouchableOpacity 
             style={HomeStyles.logoutButton}
             onPress={handleLogout}

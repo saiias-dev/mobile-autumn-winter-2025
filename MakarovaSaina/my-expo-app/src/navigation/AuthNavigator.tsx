@@ -33,7 +33,7 @@ export default function AuthNavigator() {
         component={LoginScreen}
         options={{
           title: 'Вход в систему',
-          headerShown: false,
+          headerShown: true, 
         }}
       />
       <Stack.Screen 
@@ -41,7 +41,7 @@ export default function AuthNavigator() {
         component={RegisterScreen}
         options={{
           title: 'Регистрация',
-          headerShown: false,
+          headerShown: true, 
         }}
       />
     </Stack.Navigator>
