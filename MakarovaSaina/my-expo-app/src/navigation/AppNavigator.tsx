@@ -10,82 +10,21 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ZustandScreen from '../screens/Zustand/ZustandScreen';
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen/RegistrerScreen';
+import UsersScreen from '../screens/UserScreen/UserScreen'; 
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import PostsScreen from '../screens/PostsScreen/PostsScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
-
-function MainDrawer() {
-  return (
-    <Drawer.Navigator 
-      id='MainDrawer'
-      initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#f97a9cff',
-        },
-        headerTintColor: '#000000ff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        drawerStyle: {
-          backgroundColor: '#1F2833',
-        },
-        drawerActiveTintColor: '#f97a9cff',
-        drawerInactiveTintColor: '#C5C6C7',
-        drawerActiveBackgroundColor: '#0B0C10',
-        swipeEnabled: true,
-      }}
-    >
-      <Drawer.Screen 
-        name="Home" 
-        component={HomeScreen}
-        options={{
-          title: 'Главная',
-          drawerLabel: 'Главная',
-        }}
-      />
-      <Drawer.Screen 
-        name="UseState" 
-        component={UseStateScreen}
-        options={{
-          title: 'useState Хук',
-          drawerLabel: 'useState',
-        }}
-      />
-      <Drawer.Screen 
-        name="UseEffect" 
-        component={UseEffectScreen}
-        options={{
-          title: 'useEffect Хук',
-          drawerLabel: 'useEffect',
-        }}
-      />
-      <Drawer.Screen 
-        name="UseMemo" 
-        component={UseMemoScreen}
-        options={{
-          title: 'useMemo Хук',
-          drawerLabel: 'useMemo',
-        }}
-      />
-      <Drawer.Screen
-        name="Zustand"
-        component={ZustandScreen}
-        options={{
-          title: 'Zustand Store',
-          drawerLabel: 'Zustand'
-        }}
-      />
-    </Drawer.Navigator>
-  );
-}
 
 function CustomDrawerContent(props: any) {
   const { user, logout } = useAuth();
 
   const menuItems = [
     { label: 'Главная', screen: 'Home' },
+    { label: 'Посты', screen: 'Posts' },
+    { label: 'Профиль', screen: 'Profile' },
+    { label: 'Пользователи', screen: 'Users' },
     { label: 'useState', screen: 'UseState' },
     { label: 'useEffect', screen: 'UseEffect' },
     { label: 'useMemo', screen: 'UseMemo' },
@@ -104,10 +43,10 @@ function CustomDrawerContent(props: any) {
     <View style={{ flex: 1, backgroundColor: '#1F2833' }}>
       <View style={{ padding: 20, backgroundColor: '#0B0C10', borderBottomWidth: 1, borderBottomColor: '#45A29E' }}>
         <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', marginBottom: 4 }}>
-          {user?.name}
+          {user?.name || user?.email}
         </Text>
         <Text style={{ color: '#C5C6C7', fontSize: 14 }}>
-          @{user?.username}
+          {user?.username ? `@${user.username}` : user?.email}
         </Text>
       </View>
       
@@ -155,6 +94,97 @@ function CustomDrawerContent(props: any) {
         </Text>
       </TouchableOpacity>
     </View>
+  );
+}
+
+function MainDrawer() {
+  return (
+    <Drawer.Navigator 
+      id='MainDrawer'
+      initialRouteName="Home"
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#f97a9cff',
+        },
+        headerTintColor: '#000000ff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        drawerStyle: {
+          backgroundColor: '#1F2833',
+        },
+        drawerActiveTintColor: '#f97a9cff',
+        drawerInactiveTintColor: '#C5C6C7',
+        drawerActiveBackgroundColor: '#0B0C10',
+        swipeEnabled: true,
+      }}
+    >
+      <Drawer.Screen 
+        name="Home" 
+        component={HomeScreen}
+        options={{
+          title: 'Главная',
+          drawerLabel: 'Главная',
+        }}
+      />
+      <Drawer.Screen 
+        name="Users" 
+        component={UsersScreen}
+        options={{
+          title: 'Пользователи',
+          drawerLabel: 'Пользователи',
+        }}
+      />
+      <Drawer.Screen 
+        name="UseState" 
+        component={UseStateScreen}
+        options={{
+          title: 'useState Хук',
+          drawerLabel: 'useState',
+        }}
+      />
+      <Drawer.Screen 
+        name="UseEffect" 
+        component={UseEffectScreen}
+        options={{
+          title: 'useEffect Хук',
+          drawerLabel: 'useEffect',
+        }}
+      />
+      <Drawer.Screen 
+        name="UseMemo" 
+        component={UseMemoScreen}
+        options={{
+          title: 'useMemo Хук',
+          drawerLabel: 'useMemo',
+        }}
+      />
+      <Drawer.Screen
+        name="Zustand"
+        component={ZustandScreen}
+        options={{
+          title: 'Zustand Store',
+          drawerLabel: 'Zustand'
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'Профиль',
+          drawerLabel: 'Профиль',
+        }}
+      />
+      <Drawer.Screen
+        name="Posts"
+        component={PostsScreen}
+        options={{
+          title: 'Посты',
+          drawerLabel: 'Посты',
+        }}
+      />
+    </Drawer.Navigator>
   );
 }
 
