@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { getPosts, Post, PostsPagination } from '../../api/posts/client';
+import { getPosts, createPost, Post, PostsPagination } from '../../api/posts/client';
 import { UsersStyles } from '../UserScreen/UserScreenStyle';
 
 type Props = {
@@ -25,6 +25,10 @@ export default function PostsScreen({ navigation }: Props) {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [newContent, setNewContent] = useState('');
+  const [creating, setCreating] = useState(false);
+  const [publishNow, setPublishNow] = useState(true);
 
   const loadPosts = useCallback(
     async (page = 1, append = false) => {
@@ -69,6 +73,32 @@ export default function PostsScreen({ navigation }: Props) {
     if (loadingMore || !pagination?.hasNext) return;
     setLoadingMore(true);
     loadPosts((pagination.currentPage || 1) + 1, true);
+  };
+
+  const handleCreatePost = async () => {
+    if (!newTitle.trim() || !newContent.trim()) {
+      return;
+    }
+
+    try {
+      setCreating(true);
+      setError(null);
+
+      await createPost({
+        title: newTitle.trim(),
+        content: newContent.trim(),
+        published: publishNow,
+      });
+
+      setNewTitle('');
+      setNewContent('');
+      await loadPosts(1, false);
+    } catch (err: any) {
+      console.error('Error creating post:', err);
+      setError(err.message || 'Не удалось создать пост');
+    } finally {
+      setCreating(false);
+    }
   };
 
   const renderPostItem = ({ item }: { item: Post }) => (
@@ -120,6 +150,63 @@ export default function PostsScreen({ navigation }: Props) {
           <Text style={UsersStyles.subtitle}>
             Публичные посты. Авторизованные пользователи видят свои черновики.
           </Text>
+        </View>
+
+        <View style={UsersStyles.controlsContainer}>
+          <TextInput
+            style={UsersStyles.searchInput}
+            placeholder="Заголовок нового поста"
+            placeholderTextColor="#C5C6C7"
+            value={newTitle}
+            onChangeText={setNewTitle}
+          />
+        </View>
+        <View style={UsersStyles.controlsContainer}>
+          <TextInput
+            style={[UsersStyles.searchInput, { height: 80, textAlignVertical: 'top' }]}
+            placeholder="Содержимое нового поста"
+            placeholderTextColor="#C5C6C7"
+            value={newContent}
+            onChangeText={setNewContent}
+            multiline
+          />
+        </View>
+        <View style={UsersStyles.controlsContainer}>
+          <TouchableOpacity
+            style={[
+              UsersStyles.filterButton,
+              { backgroundColor: publishNow ? '#66FCF1' : '#1F2833', borderWidth: 1, borderColor: '#66FCF1' },
+            ]}
+            onPress={() => setPublishNow(prev => !prev)}
+            disabled={creating}
+          >
+            <Text
+              style={[
+                UsersStyles.filterButtonText,
+                { color: publishNow ? '#0B0C10' : '#66FCF1' },
+              ]}
+            >
+              {publishNow ? 'Опубликовать сразу' : 'Сохранить как черновик'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={UsersStyles.controlsContainer}>
+          <TouchableOpacity
+            style={[
+              UsersStyles.filterButton,
+              (!newTitle.trim() || !newContent.trim() || creating) && { opacity: 0.5 },
+            ]}
+            onPress={handleCreatePost}
+            disabled={!newTitle.trim() || !newContent.trim() || creating}
+          >
+            {creating ? (
+              <ActivityIndicator color="#0B0C10" />
+            ) : (
+              <Text style={UsersStyles.filterButtonText}>
+                {publishNow ? 'Создать опубликованный пост' : 'Создать пост (черновик)'}
+              </Text>
+            )}
+          </TouchableOpacity>
         </View>
 
         <View style={UsersStyles.controlsContainer}>

@@ -45,4 +45,22 @@ export async function getPosts(params?: {
   return response.data;
 }
 
+export interface CreatePostPayload {
+  title: string;
+  content: string;
+  published?: boolean;
+}
+
+export interface SinglePostResponse {
+  success: boolean;
+  data: {
+    post: Post;
+  };
+}
+
+export async function createPost(payload: CreatePostPayload) {
+  const response = await apiClient.post<SinglePostResponse>('/api/posts', payload);
+  return response.data;
+}
+
 
